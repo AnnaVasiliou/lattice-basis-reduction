@@ -21,3 +21,10 @@ The trade-off: exact integer arithmetic means the algorithm is always correct, b
 The input must be a list of integer vectors. Non-integer or ragged inputs raise `ValueError`. The `delta` parameter is given as a percentage (25–100, representing 1/4 to 1); values outside this range raise `ValueError` because the algorithm's termination guarantee requires `1/4 ≤ δ ≤ 1`.
 
 The implementation recompute the Gram-Schmidt orthogonalisation from scratch after each basis modification. This is correct but not the most efficient approach — for bases with many vectors, expect cubic-or-worse performance rather than the theoretical optimum.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
